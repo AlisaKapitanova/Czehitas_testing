@@ -42,4 +42,15 @@ public final class ApplicationAssertion {
         var popUpWindow = elementFinder.findByCssSelector("#toast-container");
         assertThat(popUpWindow.getText()).isEqualTo("Údaje byly úspěšně uloženy");
     }
+    public void checkSearchResultIsNotFound() {
+        var seachResult = elementFinder.findByCssSelector(".odd");
+        assertThat(seachResult.getText()).isEqualTo("Žádné záznamy nebyly nalezeny");
+    }
+
+    public void checkSearchResult(int userName) {
+        var seachResult = elementFinder.findByCssSelector(".dtr-control.sorting_1");
+        assertThat(seachResult.getText()).isEqualTo(userName);
+    }
+
+
 }

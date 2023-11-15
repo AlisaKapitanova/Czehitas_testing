@@ -46,7 +46,7 @@ final class LoginAction {
     void logout() {
         var signedInUserElement = elementFinder.findByXPath("//*[@id='navbarSupportedContent']/div[2]/div/a");
         signedInUserElement.click();
-        var logoutButton = elementFinder.findByXPath("//*[@id='logout-link']");
+        var logoutButton = elementFinder.findByXPath("//a[@id='logout-link']");
         logoutButton.click();
     }
 }

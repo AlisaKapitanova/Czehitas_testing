@@ -192,6 +192,7 @@ final class LowCodeAutomationTest extends TestRunner {
     browser.loginSection.insertEmail(user2Email);
     browser.loginSection.insertPassword(password1);
     browser.loginSection.clickLoginButton();
+
     browser.applicationSection.clickCreateNewApplicationButton();
     browser.applicationSection.selectProgrammingSection();
     browser.applicationSection.clickCreateApplicationButton();
@@ -204,6 +205,7 @@ final class LowCodeAutomationTest extends TestRunner {
     browser.applicationDetailsSection.clickAcceptTermsCheckbox();
     browser.waitFor(5);
     browser.applicationDetailsSection. clickCreateApplicationButton();
+
     browser.headerMenu.goToApplicationsSection();
     browser.applicationSection.search(randomName);
     browser.applicationSection.openFirstApplicationDetailsPage();
@@ -222,13 +224,70 @@ final class LowCodeAutomationTest extends TestRunner {
     @Test
     @DisplayName("should edit password of user")
     void AT_07_passwordChangeFunctionIsAvailable() {
+
+        loginAsUser(user2Email, password1);
+        changePassword(password2);
+        browser.headerMenu.goToHomePage();
+        browser.loginSection.logout();
+
+        loginAsUser(user2Email, password2);
+        changePassword(password1);
+        browser.headerMenu.goToHomePage();
+        browser.loginSection.logout();
+
+        loginAsUser(user2Email, password1);
+    }
+
+    private void loginAsUser(String username, String password) {
         browser.loginSection.clickLoginMenuLink();
-        browser.loginSection.insertEmail(user2Email);
-        browser.loginSection.insertPassword(password1);
+        browser.loginSection.insertEmail(username);
+        browser.loginSection.insertPassword(password);
         browser.loginSection.clickLoginButton();
+        asserter.checkIsLoggedIn();
+    }
+
+    private void changePassword(String newPassword) {
         browser.profileSection.goToProfilePage();
-        browser.profileSection.insertPassword(password2);
-        browser.profileSection.insertPasswordVerification(password2);
+        browser.profileSection.insertPassword(newPassword);
+        browser.profileSection.insertPasswordVerification(newPassword);
         browser.profileSection.clickChangeButton();
+    }
+
+    //HomeWork
+
+    @Test
+    @DisplayName("should create new application, be able to changes the payment method")
+    void AT_e2eTest() {
+        loginAsUser(user1Email, password1);
+
+        browser.applicationSection.search(randomLastName);
+        asserter.applicationSection.checkSearchResultIsNotFound();
+        asserter.applicationSection.checkApplicationsTableIsEmpty();
+
+        browser.applicationSection.clickCreateNewApplicationButton();
+        browser.applicationSection.selectProgrammingSection();
+        browser.applicationSection.clickCreateApplicationButton();
+        browser.applicationDetailsSection.selectTerm(termPyton);
+        browser.applicationDetailsSection.insertStudentFirstName(randomName);
+        browser.applicationDetailsSection.insertStudentLastName(randomLastName);
+        browser.applicationDetailsSection.insertBirthdate("01.12.2000");
+        browser.applicationDetailsSection.insertNote("PoznamkaNew");
+        browser.applicationDetailsSection.selectCashPaymentMethod();
+        browser.applicationDetailsSection.clickAcceptTermsCheckbox();
+        browser.waitFor(5);
+        browser.applicationDetailsSection. clickCreateApplicationButton();
+
+        browser.applicationSection.search(randomLastName);
+        asserter.applicationSection.
+
+
+
+
+
+
+
+
+
+
     }
 }

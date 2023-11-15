@@ -52,4 +52,6 @@ public final class AssertionFacade {
         var popUpWindow = elementFinder.findByCssSelector("#toast-container");
         assertThat(popUpWindow.getText()).isEqualTo("Údaje byly úspěšně uloženy");
     }
+
+
 }
