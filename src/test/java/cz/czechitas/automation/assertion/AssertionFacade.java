@@ -37,6 +37,7 @@ public final class AssertionFacade {
         assertThat(loggedInText.getText()).isEqualTo("Přihlášen");
     }
 
+
     public void checkProgrammingSectionPresense() {
         var programmingText = elementFinder.findByCssSelector(".main_content .card-img-overlay");
         assertThat(programmingText.getText().trim()).isEqualTo("Programování");
@@ -45,5 +46,10 @@ public final class AssertionFacade {
     public void checkRegistrationButtonPresense() {
         var registerButton = elementFinder.findByCssSelector(".btn-secondary");
         assertThat(registerButton.getText().trim()).isEqualTo("Zaregistrujte se");
+    }
+
+    public void checkPasswordSuccessfullyChanged() {
+        var popUpWindow = elementFinder.findByCssSelector("#toast-container");
+        assertThat(popUpWindow.getText()).isEqualTo("Údaje byly úspěšně uloženy");
     }
 }
