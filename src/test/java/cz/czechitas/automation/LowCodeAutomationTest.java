@@ -6,6 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.apache.commons.lang3.StringUtils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Test class for custom student tests
  *
@@ -130,10 +132,8 @@ final class LowCodeAutomationTest extends TestRunner {
     @Test
     @DisplayName("should verifies columns named")
     void AT_01_Assertace_Prihlashky_should_contain_sloupce_Jmeno_Kategorie(){
-        browser.loginSection.clickLoginMenuLink();
-        browser.loginSection.insertEmail(user1Email);
-        browser.loginSection.insertPassword(password1);
-        browser.loginSection.clickLoginButton();
+        loginAsUser(user1Email, password1);
+
         browser.headerMenu.goToApplicationsSection();
         asserter.applicationSection.checkColumnExists("Jméno");
         asserter.applicationSection.checkColumnExists("Kategorie");
@@ -142,10 +142,9 @@ final class LowCodeAutomationTest extends TestRunner {
     @Test
     @DisplayName("should create new application")
     void AT_KomplexnejsiTesty_should_create_new_application() {
-    browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail(user1Email);
-    browser.loginSection.insertPassword(password1);
-    browser.loginSection.clickLoginButton();
+
+    loginAsUser(user1Email, password1);
+
     browser.applicationSection.clickCreateNewApplicationButton();
     browser.applicationSection.selectProgrammingSection();
     browser.applicationSection.clickCreateApplicationButton();
@@ -169,15 +168,14 @@ final class LowCodeAutomationTest extends TestRunner {
 @Test
 @DisplayName("should edit pay metod")
     void AT_03_edit_application_pay_metod(){
-    browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail(user1Email);
-    browser.loginSection.insertPassword(password1);
-    browser.loginSection.clickLoginButton();
+    loginAsUser(user1Email, password1);
+
     browser.headerMenu.goToApplicationsSection();
     browser.applicationSection.search("Tester001");
     browser.applicationSection.clickEditFirstApplicationButton();
     browser.applicationDetailsSection.selectBankTransferPaymentMethod();
     browser.applicationDetailsSection.clickEditApplicationButton();
+
     browser.applicationSection.search("Tester001");
     browser.applicationSection.openFirstApplicationDetailsPage();
     asserter.applicationDetailAction.checkPaymentMethod("Bankovní převod");
@@ -255,6 +253,7 @@ final class LowCodeAutomationTest extends TestRunner {
 
     //HomeWork
 
+
     @Test
     @DisplayName("should create new application, be able to changes the payment method")
     void AT_e2eTest() {
@@ -278,16 +277,13 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.applicationDetailsSection. clickCreateApplicationButton();
 
         browser.applicationSection.search(randomLastName);
-        asserter.applicationSection.
+        asserter.applicationSection.checkSearchResult(randomLastName);
 
-
-
-
-
-
-
-
-
+        browser.headerMenu.goToApplicationsSection();
+        browser.applicationSection.search(randomLastName);
+        browser.applicationSection.clickEditFirstApplicationButton();
+        browser.applicationDetailsSection.selectBankTransferPaymentMethod();
+        browser.applicationDetailsSection.clickEditApplicationButton();
 
     }
 }

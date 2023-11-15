@@ -47,9 +47,9 @@ public final class ApplicationAssertion {
         assertThat(seachResult.getText()).isEqualTo("Žádné záznamy nebyly nalezeny");
     }
 
-    public void checkSearchResult(int userName) {
+    public void checkSearchResult(String randomLastName) {
         var seachResult = elementFinder.findByCssSelector(".dtr-control.sorting_1");
-        assertThat(seachResult.getText()).isEqualTo(userName);
+        assertThat(seachResult.getText()).contains(randomLastName);
     }
 
 
