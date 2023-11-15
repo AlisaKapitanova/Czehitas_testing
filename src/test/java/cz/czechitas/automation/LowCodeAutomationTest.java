@@ -19,14 +19,17 @@ final class LowCodeAutomationTest extends TestRunner {
     final String password1 = "Qaz123edc";
     final String password2 = "New123";
     final String user1Email = "alisa.kapitanovaplt@gmail.com";
+    final String user2Email = "alisa_kapitanova@ukr.net";
     final String termPyton = "05.02. - 09.02.2024";
     final String studentFirstName = "Alisa";
     final String StudentLastName = "Dali";
+
     @Test
     @DisplayName("should navigate to 'Pro rodiče -> Návody a formuláře'")
     void AT1_openSectionNavodyFormulare() {
         browser.headerMenu.goToInstructionsAndFormsForParentSection();
     }
+
     @Test
     @DisplayName("should navigate to 'Pro učitelé -> Objednávka pro MŠ/ZŠ' and select 'Příměstský tábor'")
     void AT2_openObjednavkaProUcitele() {
@@ -44,6 +47,7 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.headerMenu.goToCreateApplicationSection();
         browser.headerMenu.goToHomePage();
     }
+
     @ParameterizedTest()
     @DisplayName("should navigate to  'Pro učitelé -> Objednávka pro MŠ/ZŠ' and fill 'IČO'")
     @ValueSource(strings = {"000t54dg76"})
@@ -80,6 +84,7 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.headerMenu.goToCreateApplicationSection();
         asserter.checkRegistrationButtonPresense();
     }
+
     @Test
     @DisplayName("should create new application")
     void AT3_createNewApplication() {
@@ -97,7 +102,7 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.applicationDetailsSection.selectCashPaymentMethod();
         browser.applicationDetailsSection.clickAcceptTermsCheckbox();
         browser.waitFor(5);
-        browser.applicationDetailsSection. clickCreateApplicationButton();
+        browser.applicationDetailsSection.clickCreateApplicationButton();
     }
 
     @Test
@@ -111,8 +116,10 @@ final class LowCodeAutomationTest extends TestRunner {
         asserter.applicationDetailAction.checkPaymentMethod("Hotově");
     }
 
+// Lekce 2
     @ParameterizedTest()
     @ValueSource(strings = {"000t54dg76"})
+    @DisplayName("should create new application and fill number of children")
     void AT_Navigace_should_navigate_ProučiteléObjednávka_filLICOandPocetDeti (String icoValue) {
         browser.headerMenu.goToKindergartenAndSchoolSection();
         browser.orderSection.insertICO(icoValue);
@@ -121,28 +128,30 @@ final class LowCodeAutomationTest extends TestRunner {
     }
 
     @Test
+    @DisplayName("should verifies columns named")
     void AT_01_Assertace_Prihlashky_should_contain_sloupce_Jmeno_Kategorie(){
         browser.loginSection.clickLoginMenuLink();
-        browser.loginSection.insertEmail("alisa.kapitanovaplt@gmail.com");
-        browser.loginSection.insertPassword("Qaz123edc");
+        browser.loginSection.insertEmail(user1Email);
+        browser.loginSection.insertPassword(password1);
         browser.loginSection.clickLoginButton();
         browser.headerMenu.goToApplicationsSection();
         asserter.applicationSection.checkColumnExists("Jméno");
         asserter.applicationSection.checkColumnExists("Kategorie");
 }
 
-@Test
-    void AT_01_KomplexnejsiTesty_should_create_new_application() {
+    @Test
+    @DisplayName("should create new application")
+    void AT_KomplexnejsiTesty_should_create_new_application() {
     browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail("alisa.kapitanovaplt@gmail.com");
-    browser.loginSection.insertPassword("Qaz123edc");
+    browser.loginSection.insertEmail(user1Email);
+    browser.loginSection.insertPassword(password1);
     browser.loginSection.clickLoginButton();
     browser.applicationSection.clickCreateNewApplicationButton();
     browser.applicationSection.selectProgrammingSection();
     browser.applicationSection.clickCreateApplicationButton();
-    browser.applicationDetailsSection.selectTerm("05.02. - 09.02.2024");
+    browser.applicationDetailsSection.selectTerm(termPyton);
     browser.applicationDetailsSection.insertStudentFirstName("Jan");
-    browser.applicationDetailsSection.insertStudentLastName("Dali");
+    browser.applicationDetailsSection.insertStudentLastName(StudentLastName);
     browser.applicationDetailsSection.insertBirthdate("01.01.2000");
     browser.applicationDetailsSection.insertNote("Poznamka");
     browser.applicationDetailsSection.selectCashPaymentMethod();
@@ -150,18 +159,19 @@ final class LowCodeAutomationTest extends TestRunner {
     browser.waitFor(5);
     browser.applicationDetailsSection. clickCreateApplicationButton();
     browser.headerMenu.goToApplicationsSection();
-    asserter.applicationDetailAction.checkTerm("05.02. - 09.02.2024");
+    asserter.applicationDetailAction.checkTerm(termPyton);
     asserter.applicationDetailAction.checkFirstName("Jan");
-    asserter.applicationDetailAction.checkLastName("Dali");
+    asserter.applicationDetailAction.checkLastName(StudentLastName);
     asserter.applicationDetailAction.checkDateOfBirth("01.01.2000");
     asserter.applicationDetailAction.checkNote("Poznamka");
 }
 
 @Test
+@DisplayName("should edit pay metod")
     void AT_03_edit_application_pay_metod(){
     browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail("alisa.kapitanovaplt@gmail.com");
-    browser.loginSection.insertPassword("Qaz123edc");
+    browser.loginSection.insertEmail(user1Email);
+    browser.loginSection.insertPassword(password1);
     browser.loginSection.clickLoginButton();
     browser.headerMenu.goToApplicationsSection();
     browser.applicationSection.search("Tester001");
@@ -175,16 +185,17 @@ final class LowCodeAutomationTest extends TestRunner {
     asserter.applicationDetailAction.checkMessageContainsStudentLastName("Martin Tester001");
 }
 
-@Test
+    @Test
+    @DisplayName("Checking visibility of requests between users")
     void AT_06_applicationsOfOneUserAreNotVisibleToOtherUsers() {
     browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail("alisa_kapitanova@ukr.net");
-    browser.loginSection.insertPassword("Qaz123edc");
+    browser.loginSection.insertEmail(user2Email);
+    browser.loginSection.insertPassword(password1);
     browser.loginSection.clickLoginButton();
     browser.applicationSection.clickCreateNewApplicationButton();
     browser.applicationSection.selectProgrammingSection();
     browser.applicationSection.clickCreateApplicationButton();
-    browser.applicationDetailsSection.selectTerm("05.02. - 09.02.2024");
+    browser.applicationDetailsSection.selectTerm(termPyton);
     browser.applicationDetailsSection.insertStudentFirstName(randomName);
     browser.applicationDetailsSection.insertStudentLastName(randomLastName);
     browser.applicationDetailsSection.insertBirthdate("21.10.1999");
@@ -200,18 +211,19 @@ final class LowCodeAutomationTest extends TestRunner {
     asserter.applicationDetailAction.checkLastName(randomLastName);
     browser.loginSection.logout();
     browser.loginSection.clickLoginMenuLink();
-    browser.loginSection.insertEmail("alisa.kapitanovaplt@gmail.com");
-    browser.loginSection.insertPassword("Qaz123edc");
+    browser.loginSection.insertEmail(user1Email);
+    browser.loginSection.insertPassword(password1);
     browser.loginSection.clickLoginButton();
     browser.headerMenu.goToApplicationsSection();
     browser.applicationSection.search(randomName);
     asserter.applicationSection.checkApplicationsTableIsEmpty();
 }
 
-@Test
+    @Test
+    @DisplayName("should edit password of user")
     void AT_07_passwordChangeFunctionIsAvailable() {
         browser.loginSection.clickLoginMenuLink();
-        browser.loginSection.insertEmail("alisa_kapitanova@ukr.net");
+        browser.loginSection.insertEmail(user2Email);
         browser.loginSection.insertPassword(password1);
         browser.loginSection.clickLoginButton();
         browser.profileSection.goToProfilePage();
