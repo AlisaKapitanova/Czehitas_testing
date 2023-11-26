@@ -273,9 +273,9 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.applicationDetailsSection.insertNote("PoznamkaNew");
         browser.applicationDetailsSection.selectCashPaymentMethod();
         browser.applicationDetailsSection.clickAcceptTermsCheckbox();
-        browser.waitFor(5);
         browser.applicationDetailsSection. clickCreateApplicationButton();
 
+        browser.headerMenu.goToApplicationsSection();
         browser.applicationSection.search(randomLastName);
         asserter.applicationSection.checkSearchResult(randomLastName);
 
@@ -284,6 +284,10 @@ final class LowCodeAutomationTest extends TestRunner {
         browser.applicationSection.clickEditFirstApplicationButton();
         browser.applicationDetailsSection.selectBankTransferPaymentMethod();
         browser.applicationDetailsSection.clickEditApplicationButton();
+
+        browser.applicationSection.search(randomLastName);
+        browser.applicationSection.openFirstApplicationDetailsPage();
+        asserter.applicationDetailAction.checkPaymentMethod("Bankovní převod");
 
     }
 }
